@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--
+        Date format to change text big string to only date
+
+
+borrow.borrowedDate.toString().substring(0,10)
+
+Then date formats
+
+
+function myFunction() {
+ 
+    const date = new Date();
+    //method1
+const formattedDate3 = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+    (document.getElementById("myDate") as HTMLInputElement).value = formattedDate3;
+//method2
+    var date1=date.toLocaleDateString("es-CL").split("-");
+    const format =date1[2]+"-"+date1[1]+"-"+date1[0];
+    (document.getElementById("myDate1") as HTMLInputElement).value = format;
+ 
+  }
+
+
+
+Adiing datato table
+
+  let IPTborrowlist=(document.getElementById("borrowlist")as HTMLTableElement);
+  IPTborrowlist.innerHTML="";
+  BorrowDetailsList.forEach(function(borrow)
+ {
+    const row=document.createElement('tr');
+    row.innerHTML=
+           `<td>${borrow.borrowID}</td>
+           <td>${borrow.bookID}</td>
+           <td>${borrow.userID}</td>
+           <td>${borrow.borrowedDate.toString().substring(0,10)}</td>
+           <td>${borrow.borrowBookCount}</td>
+           <td>${borrow.status}</td>
+           <td>${borrow.paidFineAmount}</td>`;
+           IPTborrowlist.appendChild(row);
+ })
+
+
+Interface medicine{
+…..
+Picture: File,
+}
+
+	• Html
+
+<input type="file" name="" accept="image/*" id="">
+
+	• Getting picture in Ts
+
+Const pictureinput=document.getelementById("medicinepicture")as htmlinputelement;
+Pic=pictureinput.files[0];//assigning values
+
+Create a oject and send it the data base As usual 
+
+	• While uploading image in table then 
+Example
+<td><img src="${URL.createOjectURL(medicine.picture)}" alt="" srcset=""></td>
+           <td>${borrow.status}</td>
+
+
+Database:
+"picture"BYTEA
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
+• Step 2 :
+• "ConnectionStrings": {
+"PostgresDB": "Server=localhost;Port=5432;Database=MedicalStore;User Id=postgres;Password=root"
+},
+
+• Step 1:
+• Microsoft.EntityFrameworkCore
+
+• Npgsql.EntityFrameworkCore.PostgreSQL
+
+• EntityFramework6.Npgsql
+
+• Ravichandran EttapparajanYesterday 6:55 PM
+• Step 3:(in program.js file)
+• using Microsoft.EntityFrameworkCore;
+
+• builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresDB")));
+
+• Below line are need inser intoApplicationContest
+• public class ApplicationDBContext : DbContext, IDisposable
+{
+    public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options)
+    {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+    }}
+
+• Step 4:
+creation of classes and creation of bdclass
+• Creation of get,get,put,post,delete like below
+• Sivakumar VairamuthuYesterday 7:22 PM
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using MedicalStoreApplicationApi.MedicalStoreApp;
+using Microsoft.AspNetCore.Mvc;
+ 
+namespace MedicalStoreApplicationApi.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class MedicineDetailsController:ControllerBase
+    {
+        private readonly ApplicationDBContext _dbContext;
+        public MedicineDetailsController(ApplicationDBContext applicationDBContext)
+        {
+            _dbContext=applicationDBContext;
+        }
+        [HttpGet]
+    //Get Details
+        public IActionResult GetMedicineDetails()
+        {
+            return Ok(_dbContext.medicines.ToList());
+        }
+        //Set Details
+         [HttpGet("{MedicineID}")]
+        public IActionResult GetIndividualMedicineDetails(int medicineID)
+        {
+            var medicine=_dbContext.medicines.FirstOrDefaultAsync(medicine=>medicine.MedicineID==medicineID);
+            if(medicine==null)
+            {
+                return NotFound();
+            }
+            return Ok(medicine);
+        }
+        //Add Details
+        [HttpPost]
+        public IActionResult AddMedicineDetails([FromBody] MedicineDetails medicine)
+        {
+            _dbContext.medicines.Add(medicine);
+            _dbContext.SaveChanges();
+            return Ok();
+        }
+        //Update Details
+        [HttpPut("{MedicineID}")]
+        public IActionResult UpdateMedicineDetails(int medicineID,[FromBody] MedicineDetails medicine)
+        {
+            var medicineOld=_dbContext.medicines.FirstOrDefault(medicine=>medicine.MedicineID==medicineID);
+            if(medicineOld==null)
+            {
+                return NotFound();
+            }
+            medicineOld.AvailableCount=medicine.AvailableCount;
+            medicineOld.ExpiryDate=medicine.ExpiryDate;
+            medicineOld.MedicineName=medicine.MedicineName;
+            medicineOld.Price=medicine.Price;
+            _dbContext.SaveChanges();
+            return Ok();
+        }
+        //Delete Details
+        [HttpDelete("{MedicineID}")]
+        public IActionResult DeleteMedicine(int medicineID)
+        {
+        var medicine=_dbContext.medicines.FirstOrDefault(medicine=>medicine.MedicineID==medicineID);
+            if(medicine==null)
+            {
+                return NotFound();
+            }
+            _dbContext.medicines.Remove(medicine);
+            _dbContext.SaveChanges();
+            return Ok();
+        }
+    }
+}
+
+• Ravichandran EttapparajanYesterday 7:34 PM
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+ 
+[Table("employeegroups", Schema = "public")]
+
+			
+
+
+ 
+
+
+
+    -->
+</body>
+</html>
